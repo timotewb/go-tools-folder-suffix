@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -40,8 +39,12 @@ func main(){
 
 		for _, file := range files {
 			if file.IsDir() {
-				newName := strings.TrimSpace(file.Name()[strings.Index(file.Name(), dlm)+1:])+filepath.Ext(file.Name())
-				fmt.Println(file.Name(), newName)
+				newName := strings.TrimSpace(file.Name()[strings.Index(file.Name(), dlm)+len(dlm):])+filepath.Ext(file.Name())
+				e := os.Rename(filepath.Join(inDir, file.Name()), filepath.Join(inDir, newName))
+				// Check for Error
+				if e != nil {
+				log.Fatal(e)
+				}
 			}
 		}
 
